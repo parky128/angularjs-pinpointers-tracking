@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Pinpointers</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+        <link href="css/jasny-bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="css/app.css" rel="stylesheet">
+	</head>
+	<body>
+        <!-- Full page spinner -->
+        <div class="spinner" ng-controller="mainCtrl"  ng-hide="loggedIn">
+        </div>
+        <!-- LOCATIONS LIST -->
+        <div ng-controller="LocationsController as locationsCtrl" class="navmenu navmenu-default navmenu-fixed-left offcanvas-sm">
+            <div class="list-group" ng-cloak>
+                <input type="text" class="form-control" placeholder="Search..."  ng-model="locationsSearch.UnitName">
+                <div ng-click="locationsCtrl.handleItemClick($index,location.UntID,location.Lat,location.Lon)" class="list-group-item" ng-repeat="location in locationsCtrl.locations | orderBy:'-EventDTUTC' |  filter:locationsSearch" ng-class="{'active-selection': locationsCtrl.isSelected(location.UntID)}">
+                    <h4 class="list-group-item-heading"><div ng-class="locationsCtrl.getInJourneyClass(location.InJourney)" style="display:inline-block; vertical-align:bottom;"></div>{{location.UnitName}}</h4>
+                    <p class="list-group-item-text">
+                        {{location.Location}}
+                    </p>
+                    <ul class="list-inline">
+                        <li>
+                            <span class="Icon16 Urr{{location.UrrID}}" style="padding-left:16px; margin-right:2px;"></span>
+                            <span class="label label-default"><strong>{{location.EventDTDisplay}}</strong></span>
+                        </li>
+                        <!--<ul class="list-inline pull-right">
+                <li><button ng-click="locationsCtrl.showHistory(location.UntID)" type="button" class="btn btn-default"><span class="glyphicon glyphicon-calendar"></span> History</button></li>
+            </ul>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- NAVBAR -->
+        <div class="navbar navbar-default navbar-fixed-top" ng-controller="mainCtrl">
+          <div class="container-fluid">
+              <button type="button" class="navbar-toggle pull-left" data-toggle="offcanvas" data-target=".navmenu">
+                <span class="glyphicon glyphicon-list-alt"></span>
+              </button>
+              <button type="button" class="btn btn-default navbar-btn pull-right" ng-click="logout()"><span class="glyphicon glyphicon-off"></span></button>
+          </div>
+        </div>
+        <!-- MAP -->
+        <div class="map" ng-controller="MapController as mapCtrl" ng-cloak>
+              <div id="map-canvas"></div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script src="lib/jasny-bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js"></script>
+        <script src="app/app.js"></script>
+        <script src="app/controllers/locationscontroller.js"></script>
+        <script src="app/controllers/mapcontroller.js"></script>
+        <script src="app/services/datastoreservice.js"></script>
+        <script src="app/services/googlemapsinitializer.js"></script>
+        <script src="app/stores/lastreportedeventstore.js"></script>
+        <script src="app/utilities.js"></script>
+	</body>
+</html>

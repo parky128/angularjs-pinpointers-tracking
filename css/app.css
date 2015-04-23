@@ -1,0 +1,285 @@
+
+html, body {
+  height: 100%;
+}
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding: 50px 0 0 0;
+}
+.map {
+    height: 100%; 
+}
+/* Move down menu because we have a fixed navbar that is 50px tall */
+.navmenu {
+  top: 50px;
+}
+
+.navbar {
+  display: block;
+  text-align: center;
+}
+.navbar-brand {
+  display: inline-block;
+  float: none;
+}
+
+
+@media (min-width: 1px) {
+  .navbar-toggle {
+    display: block !important;
+
+  }
+}
+/* When viewport becomes 992px or larger we will be showing our sidebar and so the map div will need to accommodate for this */
+@media (min-width: 992px) {
+  .map {
+    padding: 0 0 0 300px;
+  }
+  .navmenu {
+    padding-top: 0;
+  }
+  .navbar-toggle {
+    display: none !important;
+  }
+}
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.navbar-fixed-top {
+  border: 0;
+}
+
+#map-canvas {
+	width:100%;
+ 	height:calc(100% - 0px);
+}
+/*
+ * Sidebar
+ */
+
+
+
+.main 
+{
+    padding: 0px !important;
+}
+
+
+.spinner
+{
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    top: 50%;
+    left: 50%;
+    margin-left: -50px;
+    margin-top: -50px;
+    background: url('../images/ajax-loader.gif');
+    background-size: 100%;
+    z-index:90000;
+}
+
+.active-selection{
+  background-color: #eee;
+}
+
+
+
+
+/*[ng-cloak].splash {
+    display: block !important;
+}*/
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+.splash {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height:100%;
+    width:100%;
+    filter: alpha(opacity=60);
+    opacity: 0.6;
+    background: #000;
+}
+
+.splash h2 {
+    text-align: center;
+    font-size: 4em;
+    color:white;
+}
+
+.navbar.center .navbar-inner {
+    text-align: center;
+}
+
+.navbar.center .navbar-inner .nav {
+    display:inline-block;
+    float: none;
+}
+
+.partials 
+{
+    padding-top:50px;
+    padding-bottom:50px;
+}
+
+.vehicleInJourney {
+    background-image:url('http://images.pinpointers.com/PP3/green_vehicle_icon.png');
+	background-repeat:no-repeat;
+    width:20px !important; 
+    height: 23px !important;
+}
+
+.vehicleOutJourney {
+    background-image:url('http://images.pinpointers.com/PP3/red_vehicle_icon.png');
+	background-repeat:no-repeat;
+    width:20px !important; 
+    height: 23px !important;
+}
+
+.angular-google-map,
+.angular-google-map-container {
+  padding: 0px !important;
+  height: 100vh;
+}
+
+.angular-google-map img {
+  max-width: none !important;
+}
+
+.Icon16 {background-image:url('http://images.pinpointers.com/Sprites/all-trans-v-1-5-0.png') !important; width:16px !important; height: 16px !important;}
+.Urr1 {background-position:0px -120px !important;}
+.Urr2 {background-position:-16px -120px !important;}
+.Urr3 {background-position:-32px -120px !important;}
+.Urr4 {background-position:-48px -120px !important;}
+.Urr5 {background-position:-64px -120px !important;}
+.Urr6 {background-position:-80px -120px !important;}
+.Urr7 {background-position:-96px -120px !important;}
+.Urr8 {background-position:-112px -120px !important;}
+.Urr9 {background-position:-128px -120px !important;}
+.Urr10 {background-position:-144px -120px !important;}
+.Urr11 {background-position:-160px -120px !important;}
+.Urr12 {background-position:-176px -120px !important;}
+.Urr13 {background-position:-192px -120px !important;}
+.Urr14 {background-position:-208px -120px !important;}
+.Urr15 {background-position:-224px -120px !important;}
+.Urr16 {background-position:-240px -120px !important;}
+.Urr17 {background-position:-256px -120px !important;}
+.Urr18 {background-position:-272px -120px !important;}
+.Urr19 {background-position:-288px -120px !important;}
+.Urr20 {background-position:-304px -120px !important;}
+.Urr21 {background-position:-320px -120px !important;}
+.Urr22 {background-position:-336px -120px !important;}
+.Urr23 {background-position:-352px -120px !important;}
+.Urr24 {background-position:-368px -120px !important;}
+.Urr25 {background-position:-384px -120px !important;}
+.Urr26 {background-position:-400px -120px !important;}
+.Urr27 {background-position:-416px -120px !important;}
+.Urr28 {background-position:-432px -120px !important;}
+.Urr29 {background-position:-448px -120px !important;}
+.Urr30 {background-position:-464px -120px !important;}
+.Urr31 {background-position:-480px -120px !important;}
+.Urr32 {background-position:-496px -120px !important;}
+.Urr33 {background-position:-512px -120px !important;}
+.Urr34 {background-position:-528px -120px !important;}
+.Urr35 {background-position:-544px -120px !important;}
+.Urr36 {background-position:-560px -120px !important;}
+.Urr37 {background-position:-576px -120px !important;}
+.Urr38 {background-position:-592px -120px !important;}
+.Urr39 {background-position:-608px -120px !important;}
+.Urr40 {background-position:-624px -120px !important;}
+.Urr41 {background-position:-640px -120px !important;}
+.Urr42 {background-position:-656px -120px !important;}
+.Urr43 {background-position:-672px -120px !important;}
+.Urr44 {background-position:-688px -120px !important;}
+.Urr45 {background-position:-704px -120px !important;}
+.Urr46 {background-position:-720px -120px !important;}
+.Urr47 {background-position:-736px -120px !important;}
+.Urr48 {background-position:-752px -120px !important;}
+.Urr49 {background-position:-768px -120px !important;}
+.Urr50 {background-position:-784px -120px !important;}
+.Urr51 {background-position:-800px -120px !important;}
+.Urr52 {background-position:-816px -120px !important;}
+.Urr53 {background-position:-832px -120px !important;}
+.Urr54 {background-position:-848px -120px !important;}
+.Urr55 {background-position:-864px -120px !important;}
+.Urr56 {background-position:-880px -120px !important;}
+.Urr57 {background-position:-896px -120px !important;}
+.Urr58 {background-position:-912px -120px !important;}
+.Urr59 {background-position:-928px -120px !important;}
+.Urr60 {background-position:-944px -120px !important;}
+.Urr61 {background-position:-960px -120px !important;}
+.Urr62 {background-position:-976px -120px !important;}
+.Urr63 {background-position:-992px -120px !important;}
+.Urr64 {background-position:-1008px -120px !important;}
+.Urr65 {background-position:-1024px -120px !important;}
+.Urr66 {background-position:-1040px -120px !important;}
+.Urr67 {background-position:-1056px -120px !important;}
+.Urr68 {background-position:-1072px -120px !important;}
+.Urr69 {background-position:-1088px -120px !important;}
+.Urr70 {background-position:-1104px -120px !important;}
+.Urr71 {background-position:-1120px -120px !important;}
+.Urr72 {background-position:-1136px -120px !important;}
+.Urr73 {background-position:-1152px -120px !important;}
+.Urr74 {background-position:-1168px -120px !important;}
+.Urr75 {background-position:-1184px -120px !important;}
+.Urr76 {background-position:-1200px -120px !important;}
+.Urr77 {background-position:-1216px -120px !important;}
+.Urr78 {background-position:-1232px -120px !important;}
+.Urr79 {background-position:-1248px -120px !important;}
+.Urr80 {background-position:-1264px -120px !important;}
+.Urr81 {background-position:-1280px -120px !important;}
+.Urr82 {background-position:-1296px -120px !important;}
+.Urr83 {background-position:-1312px -120px !important;}
+.Urr84 {background-position:-1328px -120px !important;}
+.Urr85 {background-position:-1344px -120px !important;}
+.Urr86 {background-position:-1360px -120px !important;}
+.Urr87 {background-position:-1376px -120px !important;}
+.Urr88 {background-position:-1392px -120px !important;}
+.Urr89 {background-position:-1408px -120px !important;}
+.Urr90 {background-position:-1424px -120px !important;}
+.Urr91 {background-position:-1440px -120px !important;}
+.Urr92 {background-position:-1456px -120px !important;}
+.Urr93 {background-position:-1472px -120px !important;}
+.Urr94 {background-position:-1488px -120px !important;}
+.Urr95 {background-position:-1504px -120px !important;}
+.Urr96 {background-position:-1520px -120px !important;}
+.Urr97 {background-position:-1536px -120px !important;}
+.Urr98 {background-position:-1552px -120px !important;}
+.Urr99 {background-position:-1568px -120px !important;}
+.Urr100 {background-position:-1584px -120px !important;}
+.Urr101 {background-position:-1600px -120px !important;}
+.Urr102 {background-position:-1616px -120px !important;}
+.Urr103 {background-position:-1616px -120px !important;}
+.Urr104 {background-position:-1648px -120px !important;}
+.Urr105 {background-position:-1664px -120px !important;}
+.Urr106 {background-position:-1680px -120px !important;}
+.Urr107 {background-position:-1696px -120px !important;}
+.Urr108 {background-position:-1712px -120px !important;}
+.Urr109 {background-position:-1728px -120px !important;}
+.Urr110 {background-position:-1744px -120px !important;}
+.Urr111 {background-position:-1760px -120px !important;}
+.Urr112 {background-position:-1776px -120px !important;}
+.Urr113 {background-position:-1792px -120px !important;}
+.Urr114 {background-position:-1808px -120px !important;}
+.Urr115 {background-position:-1824px -120px !important;}
+.Urr116 {background-position:-1840px -120px !important;}
+.Urr117 {background-position:-1856px -120px !important;}
+.Urr118 {background-position:-1872px -120px !important;}
+.Urr119 {background-position:-1888px -120px !important;}
+.Urr120 {background-position:-1904px -120px !important;}
+.Urr121 {background-position:-1920px -120px !important;}
+.Urr122 {background-position:-1936px -120px !important;}
+.Urr123 {background-position:-1952px -120px !important;}
+.Urr124 {background-position:-1968px -120px !important;}
+.Urr125 {background-position:-1984px -120px !important;}
+.Urr127 {background-position:0px -144px !important;}
+.Urr128 {background-position:-128px -120px !important;}
+.Urr135 {background-position:-1936px -120px !important;}
+.Urr139 {background-position:-576px -120px !important;}
+.Urr140 {background-position:-1952px -120px !important;}
+.Urr141 {background-position:-1968px -120px !important;}

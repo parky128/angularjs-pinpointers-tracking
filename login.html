@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Pinpointers Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link href="css/login.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="container" >
+
+      <form class="form-signin" role="form"  ng-controller="LoginController" ng-submit="login()" autocomplete="on">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="inputEmail" class="sr-only">Login Name</label>
+        <input id="inputEmail" class="form-control" placeholder="Login Name" required autofocus  data-ng-model="loginName" autocomplete="on">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required  data-ng-model="password" autocomplete="on">
+        <!--<div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>-->
+        <button class="btn btn-lg btn-primary btn-block" type="submit" >Sign in</button>
+      </form>
+      
+    </div> <!-- /container -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js">
+        </script>
+    <script type="text/javascript">
+        angular.module('login', [])
+        .controller('LoginController', function ($scope, $location, $http) {
+
+            $scope.login = function () {
+                console.log('login');
+                var params = {
+                    loginname: $scope.loginName,
+                    password: $scope.password,
+                    appID: 45,
+                    includeUserAccount: true
+                };
+
+                $http.post('/session/BeginSession.json', params)
+			    .success(function (data) {
+			        if (data.success) {
+
+			            console.log('Login successful, redirect to main application');
+			            //Redirect back to application root for routeProvider to kick in on main app code
+			            window.location = "/";
+			        } else {
+			            //Handling with suitable error message to be shown
+			        }
+			    })
+			    .error(function (data) {
+			        //Handling with suitable error message to be shown
+
+			    });
+
+
+            };
+        });
+
+        //Technique below is an example of manually bootstrapping the app, rather than using the ng-app directive on a opening tag, e.g body\div
+        angular.element(document).ready(function () {
+            var initInjector = angular.injector(["ng"]);
+            var $http = initInjector.get("$http");
+            //This will return a promise on success or failure and provided user has a valid session we can then take them to the app
+            //that is manually bootstrap our app.
+            return $http.get("/session/GetSession.json").then(function (response) {
+                if (response.data.success) {
+                    console.log("Already logged in, go straight back to the app");
+                    window.location = "/";
+                    
+                } else {
+                    angular.bootstrap(document, ["login"]);
+                }
+            }, function (errorResponse) {
+                console.error("Session not found!");
+            });
+        });
+
+    </script>
+  </body>
+</html>
