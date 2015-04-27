@@ -1,8 +1,11 @@
-﻿app.controller('MapController', ['$scope', '$rootScope', 'LastReportedEventStore', 'GMapsInitializer', 'DataStoreService', 'globals', 'helpersFactory', function ($scope, $rootScope, LastReportedEventStore, GMapsInitializer, DataStoreService, globals, helpersFactory) {
+﻿app.controller('MapController', ['$scope', '$rootScope', '$compile','LastReportedEventStore', 'GMapsInitializer', 'DataStoreService', 'globals', 'helpersFactory', function ($scope, $rootScope, $compile, LastReportedEventStore, GMapsInitializer, DataStoreService, globals, helpersFactory) {
 
-    var self = this;
+    self = this;
     self.map = null;
     self.untMarkers = {};
+    self.lastUntMarker = null;
+        
+   
 
     GMapsInitializer.mapsInitialized.then(function (a, b, c) {
 
@@ -54,19 +57,31 @@
                 icon: markerImage,
                 zIndex: 300,
                 uid: 'unt' + untID,
-                untID: untID
+                untID: untID,
+                infoWindow: null,
+                infoWindowIsOpen: false
 
             };
 
             var unitMarker = new google.maps.Marker(markerOptions);
-            self.untMarkers['u' + data.UntID] = unitMarker;
+            google.maps.event.addListener(unitMarker, 'click', angular.bind(self, self.showMarkerInfoWindow, unitMarker));
 
+            self.untMarkers['u' + data.UntID] = unitMarker;
         }
     };
 
     self.updateUnitMarker = function (data) {
-        var m = self.untMarkers['u' + data.UntID];
-        m.setPosition(new google.maps.LatLng(data.Lat, data.Lon));
+        var marker = self.untMarkers['u' + data.UntID];
+        marker.setPosition(new google.maps.LatLng(data.Lat, data.Lon));
+        if (marker.infoWindow !== null) {
+            if (marker.infoWindowIsOpen === true) {
+                marker.infoWindow.close();
+                marker.infoWindow.setContent(self.untInfoWindowContent(marker.untID));
+                marker.infoWindow.open(self.map, marker);
+            } else {
+                marker.infoWindow.setContent(self.untInfoWindowContent(marker.untID));
+            }
+        }
     };
 
     self.resetMap = function () {
@@ -92,32 +107,51 @@
         self.map.setZoom(16);
     };
 
-    //This is just a helper, so could live in a service perhaps?
-    //self.getUnitMarkerIcon = function (iconNum, heading) {
+    self.showMarkerInfoWindow = function (marker) {
+        if (angular.isObject(this.lastUntMarker) && this.lastUntMarker.untID !== marker.untID) {
+            self.hideMarkerInfoWindow(this.lastUntMarker);
+        }
+        if (!marker.infoWindowIsOpen) {
+            //r = this.getLastReportedEventStore().findRecord('UntID', marker.untID);
+            //if (!Ext.isEmpty(r)) {
+                if (marker.infoWindow === null) {
 
-        
+                    iw = new google.maps.InfoWindow({
+                        maxWidth: 300,
+                        disableAutoPan: true,
+                        content: self.untInfoWindowContent(marker.untID)
 
-    //};
+                    });
+                    google.maps.event.addListener(iw, 'closeclick', angular.bind(self, self.markerInfoWindowClose, marker));
+                    marker.infoWindow = iw;
+                }
+            //}
+            marker.infoWindow.open(self.map, marker);
+            marker.infoWindowIsOpen = true;
+            this.lastUntMarker = marker;
+        }
+    };
 
-    //self.is24x24Icon = function (iconNum) {
-    //    return ((iconNum >= 10090 && iconNum <= 10125) || (iconNum >= 20007 && iconNum <= 20028) || (iconNum >= 50000 && iconNum <= 50035) || iconNum == 110 || iconNum == 210 || iconNum == 220 || iconNum == 1090 || iconNum == 1100); a
-    //};
+    self.untInfoWindowContent = function(untID) {
+        //Idea here is to use the passed in id and retrieve a dom element with the ID used as a css name - not pretty!
+        //var el = $(".unt"+untID).contents();
 
-    //self.is3DIcon = function (iconNum) {
-    //    return (iconNum >= 30001 && iconNum <= 30010);
-    //};
+        var el = $('#unt' + untID);
+        return '<div>' + el[0].innerHTML + '</div>';
+        //return '<div>' + el[0].innerHTML + '</div>';
+        //console.log(LastReportedEventStore.getIndexOfID(untID));
+    };
 
-    //self.isSmartPhoneIcon = function (iconNum) {
-    //    return ((iconNum >= 14000 && iconNum <= 14008));
-    //};
+    self.markerInfoWindowClose = function(marker) {
+        marker.infoWindowIsOpen = false;
+    };
 
-    //self.isOtherPhoneIcon = function (iconNum) {
-    //    return ((iconNum >= 13000 && iconNum <= 13008));
-    //};
+    self.hideMarkerInfoWindow = function(marker) {
+        if (angular.isObject(marker) && angular.isObject(marker.infoWindow)) {
+            marker.infoWindow.close();
+            marker.infoWindowIsOpen = false;
 
-
-
-
-
+        }
+    };
 
 } ]);

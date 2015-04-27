@@ -81,9 +81,6 @@ body {
     z-index:90000;
 }
 
-.active-selection{
-  background-color: #eee;
-}
 
 
 
@@ -127,6 +124,16 @@ body {
     padding-bottom:50px;
 }
 
+/* Last Reported Event Panel CSS Rules Below */
+
+.journeyStatus {
+    display:inline-block;
+    vertical-align: bottom;
+}
+.unitNameHeading {
+    padding-bottom: 2px;
+}
+
 .vehicleInJourney {
     background-image:url('http://images.pinpointers.com/PP3/green_vehicle_icon.png');
 	background-repeat:no-repeat;
@@ -141,17 +148,26 @@ body {
     height: 23px !important;
 }
 
-.angular-google-map,
-.angular-google-map-container {
-  padding: 0px !important;
-  height: 100vh;
+.eventIconContainer {
+    margin-bottom:0px;
 }
 
-.angular-google-map img {
-  max-width: none !important;
+.active-selection{
+  background-color: #eee;
+  border: solid;
 }
 
-.Icon16 {background-image:url('http://images.pinpointers.com/Sprites/all-trans-v-1-5-0.png') !important; width:16px !important; height: 16px !important;}
+.last-reported-event-item {
+    padding: 10px 5px;
+}
+
+
+/* Last Reported Event Panel CSS Rules Above */
+
+
+
+/* Event Report Reason Icons Below */
+.Icon16 {background-image:url('http://images.pinpointers.com/Sprites/all-trans-v-1-5-0.png') !important; width:16px !important; height: 16px !important; padding-left:16px; margin-right:2px;}
 .Urr1 {background-position:0px -120px !important;}
 .Urr2 {background-position:-16px -120px !important;}
 .Urr3 {background-position:-32px -120px !important;}
@@ -283,3 +299,4 @@ body {
 .Urr139 {background-position:-576px -120px !important;}
 .Urr140 {background-position:-1952px -120px !important;}
 .Urr141 {background-position:-1968px -120px !important;}
+/* Event Report Reason Icons Above */
