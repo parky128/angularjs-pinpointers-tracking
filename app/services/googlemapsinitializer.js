@@ -1,6 +1,7 @@
-﻿// Google async initializer needs global function, so we use $window
-//Thanks to http://codereview.stackexchange.com/questions/59678/simple-async-google-maps-initializer-with-angularjs
-app.factory('GMapsInitializer', function ($window, $q) {
+﻿'use strict';
+
+angular.module('ppMobi')
+.factory('GMapsInitializer', function ($window, $q) {
 
     //Google's url for async maps initialization accepting callback function
     var asyncUrl = 'https://maps.googleapis.com/maps/api/js?v=3.16&client=gme-sbssolutionsltd&sensor=false&callback=',

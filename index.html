@@ -10,20 +10,15 @@
 	</head>
 	<body>
         <!-- Full page spinner -->
-        <div class="spinner" ng-controller="mainCtrl"  ng-hide="loggedIn">
+        <div class="spinner" ng-controller="MainController"  ng-hide="loggedIn">
         </div>
         <!-- LOCATIONS LIST -->
-        <div ng-controller="LocationsController as locationsCtrl" class="navmenu navmenu-default navmenu-fixed-left offcanvas-sm">
-            <div class="list-group" ng-cloak>
-                <input type="text" class="form-control" placeholder="Search..."  ng-model="locationsSearch.UnitName">
-                <!-- LastReportedEvent Directive -->
-                <div ng-click="locationsCtrl.handleItemClick($index,location.UntID,location.Lat,location.Lon)" class="list-group-item last-reported-event-item" ng-repeat="location in locationsCtrl.locations | orderBy:'-EventDTUTC' |  filter:locationsSearch" ng-class="{'active-selection': locationsCtrl.isSelected(location.UntID)}">
-                    <last-reported-event event-data="location" id="unt{{location.UntID}}"></last-reported-event>
-                </div>
-            </div>
+        <div class="navmenu navmenu-default navmenu-fixed-left offcanvas-sm"  ng-cloak>
+            <div ng-view></div>
         </div>
+
         <!-- NAVBAR -->
-        <div class="navbar navbar-default navbar-fixed-top" ng-controller="mainCtrl">
+        <div class="navbar navbar-default navbar-fixed-top" ng-controller="MainController">
           <div class="container-fluid">
               <button type="button" class="navbar-toggle pull-left" data-toggle="offcanvas" data-target=".navmenu">
                 <span class="glyphicon glyphicon-list-alt"></span>
@@ -39,13 +34,20 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
         <script src="lib/jasny-bootstrap.min.js"></script>
         <script src="lib/angular.min.js"></script>
+        <script src="lib/angular-route.min.js"></script>
         <script src="app/app.js"></script>
         <script src="app/controllers/locationscontroller.js"></script>
+        <script src="app/controllers/journeyscontroller.js"></script>
+        <script src="app/controllers/maincontroller.js"></script>
         <script src="app/controllers/mapcontroller.js"></script>
         <script src="app/services/datastoreservice.js"></script>
         <script src="app/services/googlemapsinitializer.js"></script>
         <script src="app/stores/lastreportedeventstore.js"></script>
-        <script src="app/directives/lastreportedevent.js"></script>
+        <script src="app/stores/journeystore.js"></script>
+        <script src="app/directives/lastReportedEvent.js"></script>
+        <script src="app/directives/journeySummary.js"></script>
+        <script src="app/filters/orderobjectbyfield.js"></script>
         <script src="app/helpers.js"></script>
-	</body>
+        <!--<script src="dist/angularjs-pinpointers-tracking.js?v=1"></script>-->
+    </body>
 </html>

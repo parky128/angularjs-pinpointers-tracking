@@ -1,20 +1,24 @@
-﻿app.controller('MapController', ['$scope', '$rootScope', '$compile','LastReportedEventStore', 'GMapsInitializer', 'DataStoreService', 'globals', 'helpersFactory', function ($scope, $rootScope, $compile, LastReportedEventStore, GMapsInitializer, DataStoreService, globals, helpersFactory) {
+﻿'use strict';
 
-    self = this;
+angular.module('ppMobi')
+.controller('MapController', ['$scope', '$rootScope', '$compile','LastReportedEventStore', 'GMapsInitializer', 'DataStoreService', 'globals', 'helpersFactory',
+    function ($scope, $rootScope, $compile, LastReportedEventStore, GMapsInitializer, DataStoreService, globals, helpersFactory) {
+
+    var self = this;
     self.map = null;
     self.untMarkers = {};
     self.lastUntMarker = null;
         
-   
 
-    GMapsInitializer.mapsInitialized.then(function (a, b, c) {
+
+    GMapsInitializer.mapsInitialized.then(function () {
 
         var mapOptions = {
             zoom: 8,
             center: new google.maps.LatLng(-34.397, 150.644)
         };
         self.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-        DataStoreService.getLastReportedEvents();
+        //DataStoreService.getLastReportedEvents();
     });
 
     $rootScope.$on('drawunitmarkers', function (event, args) {
@@ -26,7 +30,11 @@
     });
 
     $rootScope.$on('zoomtolatlon', function (event, args) {
-        self.zoomToLatLon(args.pos);
+        self.zoomToLatLon(new google.maps.LatLng(args.lat, args.lon));
+    });
+
+    $rootScope.$on('resetmap', function (event, args) {
+        self.resetMap();
     });
 
     self.drawUnitMarkers = function () {
@@ -135,11 +143,17 @@
     self.untInfoWindowContent = function(untID) {
         //Idea here is to use the passed in id and retrieve a dom element with the ID used as a css name - not pretty!
         //var el = $(".unt"+untID).contents();
+        //var scope = $rootScope.$new();
+        self.eventData = LastReportedEventStore.lastReportedEvents[untID];
 
-        var el = $('#unt' + untID);
-        return '<div>' + el[0].innerHTML + '</div>';
+
+        var element = $compile('<last-reported-event event-data="eventData"></last-reported-event>')(self);
+        //scope.$digest();
+        //var el = $('#unt' + untID);
         //return '<div>' + el[0].innerHTML + '</div>';
-        //console.log(LastReportedEventStore.getIndexOfID(untID));
+        //return '<div>' + el[0].innerHTML + '</div>';
+        //console.log();
+        return element.html();
     };
 
     self.markerInfoWindowClose = function(marker) {

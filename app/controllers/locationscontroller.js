@@ -1,22 +1,20 @@
-﻿app.controller('LocationsController', ['$rootScope', '$scope', 'LastReportedEventStore', 'globals', function ($rootScope, $scope, LastReportedEventStore, globals) {
+﻿'use strict';
+
+angular.module('ppMobi')
+.controller('LocationsController', ['$rootScope', '$scope', '$location', 'LastReportedEventStore', 'globals', 'JourneyStore' ,
+    function ($rootScope, $scope, $location, LastReportedEventStore, globals, JourneyStore) {
 
     var self = this;
     self.locations = LastReportedEventStore.lastReportedEvents;
-    self.selectedIndex = null;
-
-
-    self.showOnMap = function (untID) {
-        alert('showOnMap: ' + untID);
-    };
-
-    self.showHistory = function (untID) {
-        alert('showHistory: ' + untID);
-    };
+    //self.selectedIndex = null;
+    globals.selectedUntID = null;
 
     self.handleItemClick = function (index, untID, lat, lon) {
         //Set our 'global' selectedUntID value here as it will be required elsewhere
         globals.selectedUntID = untID;
-        $rootScope.$emit('zoomtolatlon', { pos: new google.maps.LatLng(lat, lon) });
+        $rootScope.$emit('zoomtolatlon', { lat: lat, lon: lon });
+        $location.path('/journeys');
+        JourneyStore.clearJourneyStore();
     };
 
     self.isSelected = function (untID) {

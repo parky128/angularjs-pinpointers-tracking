@@ -1,0 +1,13 @@
+<div ng-controller="JourneysController as journeysCtrl">
+
+    <button type="button" class="btn btn-link" ng-click="journeysCtrl.goBackToCurrentLocations()"><&nbsp;Back to Current Locations</button>
+    <last-reported-event class="list-group-item last-reported-event-item" event-data="journeysCtrl.currentlocation"></last-reported-event>
+    <h4 class="text-center">Journey Activity</h4>
+    <!--<button class="btn btn-default" type="submit" ng-click="journeysCtrl.getHistory()">Get History</button>-->
+    <p><button type="button" class="btn btn-primary btn-sm btn-block" ng-click="journeysCtrl.getHistory()">Get Today's Journeys</button></p>
+    <div class="list-group">
+        <div ng-click="journeysCtrl.handleItemClick($index,jny.HujID)" class="list-group-item journey-summary-text" ng-repeat="jny in journeysCtrl.journeys | orderObjectByField:'id':true">
+            <journey-summary journey-data="jny" id="huj{{jny.HujID}}"></journey-summary>
+        </div>
+    </div>
+</div>

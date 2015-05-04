@@ -1,4 +1,7 @@
-﻿app.factory('helpersFactory', ['constants', function (constants) {
+﻿'use strict';
+
+angular.module('ppMobi')
+.factory('helpersFactory', ['constants', function (constants) {
 
     return {
 
@@ -37,6 +40,16 @@
 
         is3DIcon: function (iconNum) {
             return (iconNum >= 30001 && iconNum <= 30010);
+        },
+
+        parseDatesFromResponse: function (data, dateFields) {
+            for (var d = 0, len = data.length; d < len; d += 1) {
+                for (var i = 0; i < dateFields.length; i++) {
+                    data[d][dateFields[i]] = new Date(data[d][dateFields[i]]);
+                }
+            }
+
+            return data;
         }
 
     };

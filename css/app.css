@@ -161,6 +161,10 @@ body {
     padding: 10px 5px;
 }
 
+.journey-summary-text {
+    font-size: 12px;
+}
+
 
 /* Last Reported Event Panel CSS Rules Above */
 
@@ -300,3 +304,10 @@ body {
 .Urr140 {background-position:-1952px -120px !important;}
 .Urr141 {background-position:-1968px -120px !important;}
 /* Event Report Reason Icons Above */
+
+.journeySummaryReportReason{
+    display: inline-block;
+    vertical-align: bottom;
+    position: relative;
+    top: -2px;
+}

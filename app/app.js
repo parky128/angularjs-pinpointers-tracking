@@ -1,12 +1,12 @@
 ﻿//Purpose of the following code is to perform an session check before we bootstrap the application
 //This will prevent any UI showing that a logged in user should not yet see, and gracefully redirect them to the login page
 //In this particular session check, the server side checks for the presence of a session cookie and if present validates accordingly
+'use strict';
 
 angular.element(document).ready(function () {
     var initInjector = angular.injector(["ng"]);
     var $http = initInjector.get("$http");
     //This will return a promise on success or failure and provided user has a valid session (based on cookie check)
-    //we can then take them to the app that is manually bootstrap our app.
     return $http.get("/session/GetSession.json").then(function (response) {
         if (response.data.success) {
             //session found so carry on with loading the main application
@@ -20,15 +20,17 @@ angular.element(document).ready(function () {
     });
 });
 
-var app = angular.module('ppMobi', [])
+var app = angular.module('ppMobi', ["ngRoute"])
 //Need to be able to look up the currently selected vehicle's untID from the database throughout the app.
 //Could move this value declaration into a separate file if this becomes more verbose
 .value('globals', {
-    selectedUntID: null
+    selectedUntID: null,
+    selectedUntRecord: {}
 })
 .constant('constants', {
     imagesPath3dCarIcons: 'http://images.pinpointers.com/mapicons2/3DCarIcons41x37.png?v=2',
     imagesPathDefaultCarIcons: 'http://images.pinpointers.com/Sprites/all-trans-v-1-5-0.png',
+    imagesPathSmartPhoneIcons: 'http://images.pinpointers.com/mapicons2/allphones-trans.png',
     demoNames: {
         '9225': 'James Timberland P[J08 LDS',
         '3555': 'James Anderson YT12 OSV',
@@ -46,32 +48,30 @@ var app = angular.module('ppMobi', [])
         '10737': 'Carl Freeman DF12 MDB'
     }
 })
-.controller('mainCtrl', function ($scope, $http) {
-    $scope.loggedIn = true;
+.config(['$routeProvider',function($routeProvider){
 
-    $scope.logout = function () {
-        $http.post('/session/EndSession.json')
-			    .success(function (data) {
-			        if (data.success) {
+    $routeProvider.when('/',{
+        templateUrl: 'app/views/currentlocations.html'
+    }).when('/journeys',{
+        templateUrl: 'app/views/journeys.html'
 
-			            console.log('Logout successful, redirect to main application');
-			            //Redirect back to application root for routeProvider to kick in on main app code
-			            window.location = "/login.html";
-			        } else {
-			            //Handling with suitable error message to be shown
-			        }
-			    })
-			    .error(function (data) {
-			        //Handling with suitable error message to be shown
+    });
+}])
+.run(['DataStoreService', '$timeout', '$rootScope', 'GMapsInitializer', function (DataStoreService, $timeout, $rootScope, GMapsInitializer) {
 
-			    });
-    };
-})
-.run(['DataStoreService', '$timeout', '$rootScope', function (DataStoreService, $timeout, $rootScope) {
+    GMapsInitializer.mapsInitialized.then(function () {
+
+
+        DataStoreService.getLastReportedEvents();
+    });
+    //Initial fetch of data
+    //DataStoreService.getLastReportedEvents();
+
+    //Perform next fetch of data after 20 seconds have elapsed
     $rootScope.$on('lastreportedeventsreceived', function (event) {
         $timeout(function () {
             DataStoreService.getLastReportedEvents();
-        }, 5000);
+        }, 20000);
     });
 }]);
 

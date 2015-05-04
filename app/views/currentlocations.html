@@ -1,0 +1,9 @@
+<div ng-controller="LocationsController as locationsCtrl">
+    <div class="list-group">
+        <input type="text" class="form-control" placeholder="Search..."  ng-model="locationsSearch.UnitName">
+        <!-- LastReportedEvent Directive -->
+        <div ng-click="locationsCtrl.handleItemClick($index,location.UntID,location.Lat,location.Lon)" class="list-group-item last-reported-event-item" ng-repeat="location in locationsCtrl.locations | orderObjectByField:'EventDTUTC':true |  filter:locationsSearch" ng-class="{'active-selection': locationsCtrl.isSelected(location.UntID)}">
+            <last-reported-event event-data="location" id="unt{{location.UntID}}"></last-reported-event>
+        </div>
+    </div>
+</div>

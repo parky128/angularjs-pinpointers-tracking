@@ -1,8 +1,11 @@
-﻿app.directive('lastReportedEvent', [function () {
+﻿'use strict';
+
+angular.module('ppMobi')
+.directive('lastReportedEvent', [function () {
     return {
         template: '<h4 class="list-group-item-heading">'+
             '<span ng-class="getInJourneyClass(eventData)"></span>' +
-            '<span class="journeyStatus unitNameHeading">{{eventData.UnitName}}</span></h4>' +
+            '<span class="journeyStatus unitNameHeading" ng-bind="eventData.UnitName"></span></h4>' +
             '<p class="list-group-item-text" ng-bind="eventData.Location"></p>' +
             '<ul class="list-inline eventIconContainer">' +
                 '<li>'+

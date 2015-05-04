@@ -1,69 +1,43 @@
-﻿app.factory('LastReportedEventStore',['helpersFactory','constants', function (helpersFactory, constants) {
+﻿'use strict';
 
-    var lastReportedEvents = [], idProperty = 'UntID', dateFields = ['EventDT', 'EventDTUTC'];
+angular.module('ppMobi')
+.factory('LastReportedEventStore',['helpersFactory','constants', function (helpersFactory, constants) {
+
+    //Thinking that any stores of data to be shared across the application views, controllers, etc should live here...
+
+    var lastReportedEvents = {},
+        idProperty = 'UntID',
+        dateFields = ['EventDT', 'EventDTUTC'];
 
     return {
         lastReportedEvents: lastReportedEvents,
 
         transformResponseData: function (data) {
-            var preparedData = this.parseDatesFromResponse(data);
-            
-            if (lastReportedEvents.length === 0) {
-                lastReportedEvents.push.apply(lastReportedEvents, helpersFactory.replaceDemoNames(preparedData));
-            } else {
-                this.processLastReportedEventUpdates(preparedData);
-            }
-        },
-
-        parseDatesFromResponse: function (data) {
-            for (var d = 0, len = data.length; d < len; d += 1) {
-                for (i = 0; i < dateFields.length; i++) {
-                    data[d][dateFields[i]] = new Date(data[d][dateFields[i]]);
-                }
-            }
-
-            return data;
-        },
-
-
-        processLastReportedEventUpdates: function (updates) {
-
-            for (var d = 0, len = updates.length; d < len; d += 1) {
-                var newData = updates[d], demoName;
-                //Check if this particular unit (vehicle) has a demo name we need to display
-                demoName = constants.demoNames[newData[idProperty]];
+            //Convert any encoded dates to true Date types - may be needed for sorting purposes in views
+            var preparedData = helpersFactory.parseDatesFromResponse(data,dateFields);
+            preparedData.forEach(function(lreData) {
+                var lre = lastReportedEvents[lreData.UntID], demoName;
+                //For demo purposes only - mask the true identity in view of proper unit names from back end
+                demoName = constants.demoNames[lreData[idProperty]];
                 if (angular.isString(demoName)) {
-                    newData.UnitName = demoName;
+                    lreData.UnitName = demoName;
                 }
-                
-                var item = this.getByID(newData[idProperty]);
-                if (item === null) {
-                    //Item does not exist so add here
-                    lastReportedEvents.push(newData);
+                if (lre) {
+                    lastReportedEvents[lreData.UntID] = angular.extend(lre, lreData);
+                } else {
+                    lastReportedEvents[lreData.UntID]=lreData;
                 }
-                else {
-                    //Item already exists, so we need to process any new values and update the store
-                    this.updateData(newData);
-                }
-            }
-        },
+            });
 
+        }
+/*
         getByID: function (id) {
             for (var d = 0, len = lastReportedEvents.length; d < len; d += 1) {
                 if (lastReportedEvents[d][idProperty] === id) {
                     return lastReportedEvents[d];
                 }
             }
-        },
-
-        updateData: function (newData) {
-            for (var d = 0, len = lastReportedEvents.length; d < len; d += 1) {
-                if (lastReportedEvents[d][idProperty] === newData[idProperty]) {
-                    //Straight copy (re-assignment of data on top of existing)
-                    lastReportedEvents[d] = newData;
-                }
-            }
-        }
+        }*/
 
     };
 
